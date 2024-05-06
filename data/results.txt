@@ -1,0 +1,29 @@
+## In this project we had 2 main objectives:
+1. Identifying which pet images are of dogs and which pet images aren't of dogs
+2. Classifying the breeds of dogs, for the images that are of dogs
+
+* For objective 1, all three could identify dogs 100% of the time,
+however only VGG was able to distinguish dogs from other things 100% of the time,
+while ResNet and AlexNet only scored 90%.
+
+* For Object 2, VGG again outperformed with a 93.3% correct classification,
+followed closely by Resnet at 90% and AlexNet much further behind at 80%.
+
+
+## Results Table
+
+Number Total Images: 40
+Number Dog Images: 30
+Number Not-dog Images: 10
+
+CNN Model Arch | Pct Not-a-Dog | Pct Dogs Correct | Pct Breeds
+               | Correct       | Correct          | Correct
+ResNet         | 90%           | 100%             | 90%
+AlexNet        | 90%           | 100%             | 80%
+VGG            | 100%          | 100%             | 93.3%
+
+By the numbers, it is clear that VGG outperformed the other two classifiers.
+While all there are effective at identifying the general category of "dog",
+only VGG was highly reliable at excluding non-dogs correctly from that category.
+None of the classifiers were perfect at further distinguishing dog breeds,
+but VGG shows a clear advantage with 93% accuracy.

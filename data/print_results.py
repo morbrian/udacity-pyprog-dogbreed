@@ -62,5 +62,15 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    None
+    print(f"CNN Model: {model}")
+    for label, stat in results_stats_dic.items():
+        print(f"{label}: {stat}{'%' if label[0] == 'p' else ''}")
+
+    if print_incorrect_dogs:
+        # if it's a dog but the classifier didn't detect it
+        print('Incorrect Dog Names: ' + ', '.join([record[0] for record in results_dic.values() if not record[4] and record[3]]) )
+
+    if print_incorrect_breed:
+        # if it's a dog, and the classifier knows it's a dog, but it guessed the wrong breed
+        print('Incorrect Dog Breeds: ' + ', '.join([record[0] for record in results_dic.values() if not record[2] and record[4] and record[3]]) )
                 
