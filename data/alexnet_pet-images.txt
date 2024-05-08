@@ -288,7 +288,7 @@ PetLabelDog: 1  ClassLabelDog: 1
 
                     cat_01.jpg: 
 Real:                        cat   Classifier: african hunting dog, hyena dog, cape hunting dog, lycaon pictus  
-PetLabelDog: 0  ClassLabelDog: 1
+PetLabelDog: 0  ClassLabelDog: 0
 
     Golden_retriever_05257.jpg: 
 Real:           golden retriever   Classifier:           afghan hound, afghan  
@@ -310,24 +310,25 @@ PetLabelDog: 1  ClassLabelDog: 1
 
  ** Statistics from calculates_results_stats() function:
 N Images: 40  N Dog Images: 30  N NotDog Images: 10 
-Pct Corr dog: 100.0 Pct Corr NOTdog:  90.0  Pct Corr Breed:  80.0
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  80.0
 
  ** Check Statistics - calculated from this function as a check:
 N Images: 40  N Dog Images: 30  N NotDog Images: 10 
-Pct Corr dog: 100.0 Pct Corr NOTdog:  90.0  Pct Corr Breed:  80.0
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  80.0
 CNN Model: alexnet
 n_images: 40
 n_dogs_img: 30
 n_notdogs_img: 10
-n_match: 30
-n_correct_dogs: 30
-n_correct_notdogs: 9
-n_correct_breed: 24
-pct_match: 0.75%
+pct_match: 75.0%
 pct_correct_dogs: 100.0%
 pct_correct_breed: 80.0%
-pct_correct_notdogs: 90.0%
-Incorrect Dog Names: 
-Incorrect Dog Breeds: great pyrenees, beagle, golden retriever, golden retriever, boston terrier, beagle
+pct_correct_notdogs: 100.0%
+Incorrect Dog Breed Assignments: 
+ Pet Label:    great pyrenees  Classifier:                         kuvasz 
+ Pet Label:            beagle  Classifier:               english foxhound 
+ Pet Label:  golden retriever  Classifier:                tibetan mastiff 
+ Pet Label:  golden retriever  Classifier:           afghan hound, afghan 
+ Pet Label:    boston terrier  Classifier:                        basenji 
+ Pet Label:            beagle  Classifier:  walker hound, walker foxhound 
 
 ** Total Elapsed Runtime: 0:0:0

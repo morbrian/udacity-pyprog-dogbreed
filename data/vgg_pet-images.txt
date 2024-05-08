@@ -319,15 +319,12 @@ CNN Model: vgg
 n_images: 40
 n_dogs_img: 30
 n_notdogs_img: 10
-n_match: 35
-n_correct_dogs: 30
-n_correct_notdogs: 10
-n_correct_breed: 28
-pct_match: 0.875%
+pct_match: 87.5%
 pct_correct_dogs: 100.0%
 pct_correct_breed: 93.33333333333333%
 pct_correct_notdogs: 100.0%
-Incorrect Dog Names: 
-Incorrect Dog Breeds: great pyrenees, beagle
+Incorrect Dog Breed Assignments: 
+ Pet Label:  great pyrenees  Classifier:                         kuvasz 
+ Pet Label:          beagle  Classifier:  walker hound, walker foxhound 
 
 ** Total Elapsed Runtime: 0:0:2

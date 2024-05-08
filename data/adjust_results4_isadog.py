@@ -31,12 +31,6 @@
 #           label isn't a dog.
 #
 ##
-# TODO 4: Define adjust_results4_isadog function below, specifically replace the None
-#       below by the function definition of the adjust_results4_isadog function. 
-#       Notice that this function doesn't return anything because the 
-#       results_dic dictionary that is passed into the function is a mutable 
-#       data type so no return is needed.
-# 
 def adjust_results4_isadog(results_dic, dogfile):
     """
     Adjusts the results dictionary to determine if classifier correctly 
@@ -67,20 +61,24 @@ def adjust_results4_isadog(results_dic, dogfile):
     Returns:
            None - results_dic is mutable data type so no return needed.
     """ 
-    name_lines = []         
+    # The review feedback correctly identified a mistake in my code,
+    # and after understanding that I also realized I had not fully understood
+    # what the content of the dognames file meant.
+    # The code is updated below based on the feedback, and is now changed to use a set
+    # after realizing a single full line in the file represents a single dog identifier 
+    # as returned by the classifier, rather than multiple dogs, even if it includes commas.
+    # The actual label is derived from the file name, and that is more specific and might
+    # be a sub set of what the classifier returns, but because we check with "in" we still match correctly
+    # without splitting the values by commas.
+    dog_names_set = set()  
     with open(dogfile, 'r') as f:
         name_line = f.readline()
         while name_line:
-            name_lines.append(name_line)
+            dog_names_set.add(name_line.strip())
             name_line = f.readline()
 
-    dog_names = [name.strip() for line in name_lines for name in line.split(',')]
-    for image_file, image_record in results_dic.items():
+    for image_record in results_dic.values():
         actual = image_record[0]
         predicted = image_record[1]
-        image_record.append(1 if actual in dog_names else 0)
-        image_record.append(1 if any(name in predicted for name in dog_names) else 0)
-    
-
-    
-
+        image_record.append(1 if actual in dog_names_set else 0)
+        image_record.append(1 if predicted in dog_names_set else 0)

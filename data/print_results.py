@@ -26,11 +26,38 @@
 #         This function does not output anything other than printing a summary
 #         of the final results.
 ##
-# TODO 6: Define print_results function below, specifically replace the None
-#       below by the function definition of the print_results function. 
-#       Notice that this function doesn't to return anything because it  
-#       prints a summary of the results using results_dic and results_stats_dic
-# 
+import numpy as np
+
+def format_pet_classifier_table(pet_header, pet_values, classifier_header, classifier_values):
+        """
+        Formats pet and classifier results into a string of rows with aligned columns.
+        Parameters:
+                pet_header - string label constant for pet_values
+                pet_values - array of strings with pet names
+                classifier_header - string label constant for classifier_values
+                classifier_values - array of strings with classifier results
+        Returns:
+                string - formatted tabel with input parameters aligned vertically
+        """ 
+        pet_headers = np.full(len(pet_values), pet_header)
+        classifier_headers = np.full(len(classifier_values), classifier_header)
+        max_pet_label_size = max(map(lambda p: len(p), pet_values))
+        max_classifier_size = max(map(lambda p: len(p), classifier_values))
+        rows = zip(pet_headers, pet_values, classifier_headers, classifier_values)
+
+        column_widths = [len(pet_header), max_pet_label_size, len(classifier_header), max_classifier_size]
+        column_alignments = ['<', '>', '<', '>']
+
+        formatted_rows = []
+        for row in rows:
+                this_row = ''
+                for column, width, alignment in zip(row, column_widths, column_alignments):
+                       this_row += " {0:{align}{width}} ".format(column, align=alignment, width=width)
+                formatted_rows.append(this_row)
+
+        return "\n".join(formatted_rows)
+
+
 def print_results(results_dic, results_stats_dic, model, 
                   print_incorrect_dogs = False, print_incorrect_breed = False):
     """
@@ -61,16 +88,40 @@ def print_results(results_dic, results_stats_dic, model,
                               False doesn't print anything(default) (bool) 
     Returns:
            None - simply printing results.
-    """    
+    """
+    # list the stats we want to pring
+    stat_labels = ['n_images', 'n_dogs_img', 'n_notdogs_img', 'pct_match', 'pct_correct_dogs', 'pct_correct_breed', 'pct_correct_notdogs']
+
     print(f"CNN Model: {model}")
-    for label, stat in results_stats_dic.items():
-        print(f"{label}: {stat}{'%' if label[0] == 'p' else ''}")
+    for label in stat_labels:
+        # print each label, adding a "%" char to the end when label starts with 'p'
+        print(f"{label}: {results_stats_dic[label]}{'%' if label[0] == 'p' else ''}")
 
-    if print_incorrect_dogs:
-        # if it's a dog but the classifier didn't detect it
-        print('Incorrect Dog Names: ' + ', '.join([record[0] for record in results_dic.values() if not record[4] and record[3]]) )
 
-    if print_incorrect_breed:
+    # updated conditional check per review guidance and from hints file
+    # it passes the check if the correct + incorrect dog predictions are not equal
+    # to the over all image count, since if everything was correctly predicted
+    # these would sum to the same value.
+    if (print_incorrect_dogs and 
+        ( (results_stats_dic['n_correct_dogs'] + results_stats_dic['n_correct_notdogs'])
+          != results_stats_dic['n_images'] ) 
+       ):
+        # print when the classifier and the actual label values disagree
+        print('Incorrect Dog/NOT Dog Assignments: ')
+        pet_values = [record[0] for record in results_dic.values() if record[4] != record[3]]
+        classifier_values = [record[1] for record in results_dic.values() if record[4] != record[3]]
+        formatted_rows = format_pet_classifier_table('Pet Label:', pet_values, 'Classifier:', classifier_values)
+        print(formatted_rows)
+
+
+    # updated conditional check per review guidance and hints file
+    if (print_incorrect_breed and 
+        (results_stats_dic['n_correct_dogs'] != results_stats_dic['n_correct_breed']) 
+       ):
         # if it's a dog, and the classifier knows it's a dog, but it guessed the wrong breed
-        print('Incorrect Dog Breeds: ' + ', '.join([record[0] for record in results_dic.values() if not record[2] and record[4] and record[3]]) )
+        print('Incorrect Dog Breed Assignments: ')
+        pet_values = [record[0] for record in results_dic.values() if not record[2] and record[4] and record[3]]
+        classifier_values = [record[1] for record in results_dic.values() if not record[2] and record[4] and record[3]]
+        formatted_rows = format_pet_classifier_table('Pet Label:', pet_values, 'Classifier:', classifier_values)
+        print(formatted_rows)
                 
